@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cnc.Api", "src\Cnc.Api\Cnc.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cnc.Domain", "src\Cnc.Domain\Cnc.Domain.csproj", "{BB1C36F3-8392-4F53-9A83-28A8F989DC1C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0E8F7B58-7AD9-4029-B499-4C87779DEED6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cnc.Tests.Unit", "tests\Cnc.Tests.Unit\Cnc.Tests.Unit.csproj", "{9DC0B046-E822-465C-8309-3C88A129F437}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +30,14 @@ Global
 		{BB1C36F3-8392-4F53-9A83-28A8F989DC1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB1C36F3-8392-4F53-9A83-28A8F989DC1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB1C36F3-8392-4F53-9A83-28A8F989DC1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DC0B046-E822-465C-8309-3C88A129F437}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DC0B046-E822-465C-8309-3C88A129F437}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DC0B046-E822-465C-8309-3C88A129F437}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DC0B046-E822-465C-8309-3C88A129F437}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6FE22435-6C9A-428A-8E8B-48222585DA79} = {143613B4-BCCF-40FE-B4B9-985A4F0EDB34}
 		{BB1C36F3-8392-4F53-9A83-28A8F989DC1C} = {143613B4-BCCF-40FE-B4B9-985A4F0EDB34}
+		{9DC0B046-E822-465C-8309-3C88A129F437} = {0E8F7B58-7AD9-4029-B499-4C87779DEED6}
 	EndGlobalSection
 EndGlobal
