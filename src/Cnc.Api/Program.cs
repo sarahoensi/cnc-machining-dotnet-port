@@ -1,44 +1,40 @@
+using Cnc.Application.Finishing;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // kan vente foreløpig
 
-var summaries = new[]
+app.MapPost("/api/finishing-executions", (
+    GenerateFinishingExecutionRequest request) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    var handler = new GenerateFinishingExecutionHandler();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    var execution = handler.Handle(request);
+
+    return Results.Ok(new
+    {
+        execution.Id,
+        Steps = execution.Steps.Select(step => new
+        {
+            step.StepNumber,
+            PlannedDiameterMm = step.PlannedDiameter.Value,
+            MeasuredDiameterMm = step.MeasuredDiameter?.Value,
+            step.IsLocked
+        })
+    });
 })
-.WithName("GetWeatherForecast")
+.WithName("GenerateFinishingExecution")
 .WithOpenApi();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
