@@ -5,10 +5,13 @@ public sealed class FinishingExecution
     private readonly List<FinishingStep> _steps = new();
 
     public Guid Id { get; } = Guid.NewGuid();
+    public FinishingMode Mode { get; }
     public IReadOnlyList<FinishingStep> Steps => _steps;
 
-    public FinishingExecution(IEnumerable<FinishingStep> steps)
+    public FinishingExecution(FinishingMode mode, IEnumerable<FinishingStep> steps)
     {
+        Mode = mode;
+
         var stepList = steps.ToList();
 
         if (stepList.Count == 0)

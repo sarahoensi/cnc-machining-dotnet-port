@@ -7,7 +7,7 @@ public class FinishingExecutionTests
     [Fact]
     public void RegisterMeasurement_LocksFirstOpenStep()
     {
-        var execution = new FinishingExecution([
+        var execution = new FinishingExecution(FinishingMode.OuterDiameter, [
             new FinishingStep(1, new Diameter(49.8)),
             new FinishingStep(2, new Diameter(49.6))
         ]);
@@ -21,7 +21,7 @@ public class FinishingExecutionTests
     [Fact]
     public void CannotRegisterMeasurementOutOfOrder()
     {
-        var execution = new FinishingExecution([
+        var execution = new FinishingExecution(FinishingMode.OuterDiameter, [
             new FinishingStep(1, new Diameter(49.8)),
             new FinishingStep(2, new Diameter(49.6))
         ]);
@@ -33,7 +33,7 @@ public class FinishingExecutionTests
     [Fact]
     public void CannotRegisterMeasurementForMissingStep()
     {
-        var execution = new FinishingExecution([
+        var execution = new FinishingExecution(FinishingMode.OuterDiameter, [
             new FinishingStep(1, new Diameter(49.8))
         ]);
 

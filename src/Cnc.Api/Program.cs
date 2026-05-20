@@ -1,6 +1,12 @@
 using Cnc.Application.Finishing;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -25,6 +31,7 @@ app.MapPost("/api/finishing-executions", (
     return Results.Ok(new
     {
         execution.Id,
+        execution.Mode,
         Steps = execution.Steps.Select(step => new
         {
             step.StepNumber,

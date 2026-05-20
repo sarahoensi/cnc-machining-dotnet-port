@@ -3,6 +3,7 @@ namespace Cnc.Domain.Finishing;
 public static class FinishingPlanGenerator
 {
     public static FinishingExecution Generate(
+        FinishingMode mode,
         Diameter startDiameter,
         Diameter targetDiameter,
         int numberOfCuts)
@@ -10,17 +11,31 @@ public static class FinishingPlanGenerator
         if (numberOfCuts < 1)
             throw new ArgumentException("Number of cuts must be at least 1.");
 
-        if (startDiameter.Value <= targetDiameter.Value)
-            throw new ArgumentException("Start diameter must be larger than target diameter.");
+        var start = startDiameter.Value;
+        var target = targetDiameter.Value;
 
-        var totalToRemove = startDiameter.Value - targetDiameter.Value;
-        var cutSize = totalToRemove / numberOfCuts;
+        switch (mode)
+        {
+            case FinishingMode.OuterDiameter when start <= target:
+                throw new ArgumentException(
+                    "OuterDiameter requires start diameter to be larger than target diameter.");
+            case FinishingMode.InnerDiameter when start >= target:
+                throw new ArgumentException(
+                    "InnerDiameter requires start diameter to be smaller than target diameter.");
+        }
+
+        var signedDelta = mode switch
+        {
+            FinishingMode.OuterDiameter => (target - start) / numberOfCuts,
+            FinishingMode.InnerDiameter => (target - start) / numberOfCuts,
+            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, "Unknown finishing mode.")
+        };
 
         var steps = new List<FinishingStep>();
 
         for (var i = 1; i <= numberOfCuts; i++)
         {
-            var plannedDiameter = startDiameter.Value - cutSize * i;
+            var plannedDiameter = start + signedDelta * i;
 
             steps.Add(new FinishingStep(
                 i,
@@ -28,6 +43,6 @@ public static class FinishingPlanGenerator
             ));
         }
 
-        return new FinishingExecution(steps);
+        return new FinishingExecution(mode, steps);
     }
 }
