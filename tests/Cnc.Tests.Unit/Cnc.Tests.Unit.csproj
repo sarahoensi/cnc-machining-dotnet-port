@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Cnc.Application\Cnc.Application.csproj" />
     <ProjectReference Include="..\..\src\Cnc.Domain\Cnc.Domain.csproj" />
   </ItemGroup>
 
